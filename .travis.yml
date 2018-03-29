@@ -11,4 +11,3 @@ deploy:
   skip_cleanup: true
   on:
     repo: Tazzie02/4sg-discord-bot
-    branch: develop
