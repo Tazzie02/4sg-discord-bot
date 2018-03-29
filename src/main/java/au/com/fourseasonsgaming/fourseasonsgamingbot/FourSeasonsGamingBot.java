@@ -8,6 +8,7 @@ import org.apache.commons.cli.ParseException;
 
 import au.com.fourseasonsgaming.fourseasonsgamingbot.CommandLineOptions.CommandLineParsed;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 public class FourSeasonsGamingBot {
 	
@@ -28,37 +29,23 @@ public class FourSeasonsGamingBot {
 			System.out.println(e.getMessage());
 			options.printHelp();
 //			e.printStackTrace();
-		} catch (LoginException | IllegalArgumentException e) {
-			System.out.println("The provided bot token is invalid.");
-//			e.printStackTrace();
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (InterruptedException e) {
-			System.out.println("The bot was interrupted.");
-//			e.printStackTrace();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RateLimitedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (MalformedURLException e) {
-			System.out.println("The URL is not valid.");
-//			e.printStackTrace();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		/*
-		 * hostname
-		 * port
-		 * database
-		 * username
-		 * password
-		 * bot token
-		 * 
-		 * channel id
-		 * refresh rate
-		 */
-//		
-//		try {
-//			JDABot jdaBot = new JDABot(token);
-//			jdaBot.getJDA();
-//		} catch (LoginException e) {
-//			e.printStackTrace();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
 	}
 
 }
