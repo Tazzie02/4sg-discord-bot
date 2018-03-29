@@ -1,0 +1,51 @@
+apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.plugin-shadow'
+
+def versionObj = new Version(major: 0, minor: 1, revision: 0)
+version = "$versionObj"
+mainClassName = "au.com.fourseasonsgaming.fourseasonsgamingbot.FourSeasonsGamingBot"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
+jar {
+    baseName = project.name
+    manifest {
+        attributes 'Implementation-Version': version
+        attributes 'Main-Class': "$mainClassName"
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+	implementation 'net.dv8tion:JDA:3.5.1_345'
+	implementation 'commons-cli:commons-cli:1.4'
+}
+
+class Version {
+    int major, minor, revision
+
+    String getBuild() {
+        System.getenv("BUILD_NUMBER") ?: System.getProperty("BUILD_NUMBER") ?: "DEV"
+    }
+
+    String toString() {
+        "${major}.${minor}.${revision}_$build"
+    }
+}
+
