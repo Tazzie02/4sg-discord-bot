@@ -30,10 +30,11 @@ jar {
 
 repositories {
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-	implementation 'net.dv8tion:JDA:3.5.1_345'
+	implementation 'com.github.Tazzie02:TazbotDiscordLib:development-SNAPSHOT'
 	implementation 'commons-cli:commons-cli:1.4'
 }
 
