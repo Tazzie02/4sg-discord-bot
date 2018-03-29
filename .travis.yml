@@ -1,5 +1,13 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 before_install:
-  - chmod +x gradlew
+- chmod +x gradlew
+deploy:
+  provider: releases
+  api_key:
+    secure: gClfe5AdKYoD9LAd6FA+ffnO8H4e6SP9yRnOOO6TKsDqJLqJOjmqpS3YEKF2PpSlAVYejqP/DHAtlOtc4sEyquZxoBMvanpYXJ4+DTnw67dDJbdrS431iuvKkeqBNK+amzG9foDtnj0++fX2MQ8Ip/9gBCsC6JI27Y0lhdT2fcpTB0VA25z2oujO1MyM+Nc+rGkGf+xEFUGCp/2vPxPL76S6ffjNRd5stinMRyWbU8Q1tO17x4EjSwiiHyGLmnPO+agPR9JF4WrAhsRhslcT9Ew6nD9U1IyluyvMpmSrkLPaEk9mDmg8wji7wq6SEDEHR+872hiNUajXAog3EXUCdRiPlA/9rGq3Svep1tDyEj+kJ2T2Q7NH888TXdojhKLaGgteM08NgYjQbH1Gh/zChbalRb05QnxFMjpTJoSmmcD02tgQFab63l61Y+WSVkwQ0dVNlYuW1TvVA064qTcUmtZo4CiPEmxmOjvaaCWc0aY9zarRiqpFg4CV1/xMYzfw6k4SlTQwowb1nGxbAjzelbkozXWtM3E52vCu0lRQfoxbgC7iZXrk8LtOV8GsL61Xy67mt1gwDqVbZCJtuSLv80GhiBqQDickwLulHg06Bw6F5lnqPFm0iGQdWV70njbY8RXyNdyFGj8q+FmOwMgSChdeNsem9+yHuvtywsO9kFU=
+  file: build/libs/FourSeasonsGamingBot-0.1.0_DEV-all.jar
+  on:
+    repo: Tazzie02/4sg-discord-bot
+    branch: develop
