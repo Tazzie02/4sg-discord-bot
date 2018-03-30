@@ -3,6 +3,7 @@ package au.com.fourseasonsgaming.fourseasonsgamingbot;
 import java.io.IOException;
 import java.net.URL;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -20,11 +21,6 @@ public class Poster {
 	
 	private final JDA jda;
 	private final URL url;
-	private final String noUpdates;
-	
-	{
-		noUpdates = "NO_UPDATES";
-	}
 
 	public Poster(JDA jda, URL url) {
 		this.jda = jda;
@@ -34,26 +30,27 @@ public class Poster {
 	public void post() {
 		try {
 			String content = WebPage.download(url);
-			if (content.equals(noUpdates)) {
+			JSONObject json = new JSONObject(content);
+			logger.debug("{}", json);
+			
+			JSONArray updates = json.getJSONArray("updates");
+			if (updates.length() == 0) {
 				System.out.println("[POSTER]: No updates.");
 				return;
 			}
 			
-			JSONObject json = new JSONObject(content);
-			logger.debug("{}", json);
-			
 			String output = "";
-			for (String key : json.keySet()) {
-				JSONObject value = json.getJSONObject(key);
-				output += formatArticle(value) + '\n';
+			for (int i = 0; i < updates.length(); i++) {
+				output += formatArticle(updates.getJSONObject(i)) + '\n'; 
 			}
 			
 			SendMessage.sendMessage(getPostChannel(), output);
 		} catch (IOException e) {
 			System.out.println("Could not read webpage.");
-//			e.printStackTrace();
+			e.printStackTrace();
 		} catch (JSONException e) {
 			System.out.println("Could not parse response as JSON.");
+			e.printStackTrace();
 		}
 	}
 	
