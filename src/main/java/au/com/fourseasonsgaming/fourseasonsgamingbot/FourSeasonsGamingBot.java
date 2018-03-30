@@ -5,6 +5,8 @@ import java.net.MalformedURLException;
 import javax.security.auth.login.LoginException;
 
 import org.apache.commons.cli.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import au.com.fourseasonsgaming.fourseasonsgamingbot.CommandLineOptions.CommandLineParsed;
 import net.dv8tion.jda.core.JDA;
@@ -12,12 +14,14 @@ import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 public class FourSeasonsGamingBot {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(FourSeasonsGamingBot.class);
+	
 	public static void main(String[] args) {
 		CommandLineOptions options = new CommandLineOptions();
 		try {
 			CommandLineParsed parsed = options.parse(args);
-			System.out.println("Bot token set to: " + parsed.getToken());
-			System.out.println("Data url set to: " + parsed.getUrl());
+			LOGGER.info("Bot token set to {}", parsed.getToken());
+			LOGGER.info("Data url set to {}", parsed.getUrl());
 			
 			JDABot jdaBot = new JDABot(parsed.getToken());
 			JDA jda = jdaBot.getJDA();

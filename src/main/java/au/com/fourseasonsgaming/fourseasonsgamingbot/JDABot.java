@@ -12,9 +12,8 @@ import com.tazzie02.tazbotdiscordlib.filehandling.LocalFiles;
 import com.tazzie02.tazbotdiscordlib.impl.MessageLoggerImpl;
 import com.tazzie02.tazbotdiscordlib.impl.MessageSenderImpl;
 
-import net.dv8tion.jda.core.AccountType;
+import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.AboutCommand;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 public class JDABot {
@@ -38,10 +37,7 @@ public class JDABot {
 
 	    // Create a CommandRegistry to manage Commands
 	    CommandRegistry registry = new CommandRegistry();
-		// Register the basic included Commands to the CommandRegistry
-	    registry.registerCommand(new HelpCommand(registry));
-	    registry.registerCommand(new PingCommand());
-	    registry.registerCommand(new ShutdownCommand());
+	    
 	    registry.setCaseSensitiveCommands(false);
 		// Set the owners as per the config file
 	    registry.setOwners(filesInstance.getConfig());
@@ -50,9 +46,21 @@ public class JDABot {
 	    registry.setGuildCommandSettings(filesInstance);
 		// Use the MessageLogger to log received messages
 	    registry.setMessageReceivedLogger(logger);
+	    
+	    registerCommands(registry);
 
 	    // Add the CommandRegistry to the TazbotDiscordLib object
 	    tdl.addListener(registry);
+	}
+	
+	private void registerCommands(CommandRegistry registry) {
+		// Commands provided by TDL
+		registry.registerCommand(new HelpCommand(registry));
+	    registry.registerCommand(new PingCommand());
+	    registry.registerCommand(new ShutdownCommand());
+	    
+	    // General commands
+	    registry.registerCommand(new AboutCommand());
 	}
 	
 	public JDA getJDA() {
