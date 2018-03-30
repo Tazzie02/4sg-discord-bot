@@ -61,7 +61,7 @@ public class Poster {
 		String articleTitle = json.getString("Article_Title");
 		String articleUrl = json.getString("Article_URL");
 		
-		String formatted = String.format("%s (%s) posted by %s for %s (<%s>)", articleTitle, articleType, postedBy, articleGame, articleUrl); 
+		String formatted = String.format("New %s posted by %s - %s - <%s>", articleType, postedBy, articleTitle, articleUrl); 
 		return formatted;
 	}
 	
