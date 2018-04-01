@@ -2,6 +2,8 @@ package au.com.fourseasonsgaming.fourseasonsgamingbot;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,10 +19,16 @@ import net.dv8tion.jda.core.entities.TextChannel;
 
 public class Poster {
 	
-	private final Logger logger = LoggerFactory.getLogger(Poster.class);
+	private final Logger logger;
 	
 	private final JDA jda;
 	private final URL url;
+	private final String formatKey;
+	
+	{
+		logger = LoggerFactory.getLogger(Poster.class);
+		formatKey = "Discord_Format";
+	}
 
 	public Poster(JDA jda, URL url) {
 		this.jda = jda;
@@ -41,7 +49,13 @@ public class Poster {
 			
 			String output = "";
 			for (int i = 0; i < updates.length(); i++) {
-				output += formatArticle(updates.getJSONObject(i)) + '\n'; 
+				String formatted = formatArticle(updates.getJSONObject(i));
+				if (formatted != null) {
+					output += formatted + '\n';
+				}
+				else {
+					logger.error("Could not generate output for article from JSON.");
+				}
 			}
 			
 			SendMessage.sendMessage(getPostChannel(), output);
@@ -55,14 +69,23 @@ public class Poster {
 	}
 	
 	private String formatArticle(JSONObject json) {
-		String articleType = json.getString("Article_Type");
-		String articleGame = json.getString("Article_Game");
-		String postedBy = json.getString("Posted_By");
-		String articleTitle = json.getString("Article_Title");
-		String articleUrl = json.getString("Article_URL");
+		if (!json.has(formatKey)) {
+			System.out.println("Could not find format key.");
+			return null;
+		}
 		
-		String formatted = String.format("New %s posted by %s - %s - <%s>", articleType, postedBy, articleTitle, articleUrl); 
-		return formatted;
+		String format = json.getString(formatKey);
+		json.remove(formatKey);
+		
+		Iterator<String> keys = json.keys();
+		while (keys.hasNext()) {
+			String key = keys.next();
+			String value =json.getString(key);
+			String keyPlaceholder = Pattern.quote("{$" + key + "}");
+			format = format.replaceAll(keyPlaceholder, value);
+		}
+		
+		return format;
 	}
 	
 	private TextChannel getPostChannel() {
