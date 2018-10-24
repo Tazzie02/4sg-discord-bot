@@ -38,7 +38,7 @@ dependencies {
 	implementation 'org.slf4j:slf4j-simple:1.7.25'
 	
 	
-	implementation 'com.github.Tazzie02:TazbotDiscordLib:development-SNAPSHOT'
+	implementation 'com.github.Tazzie02:TazbotDiscordLib:master-SNAPSHOT'
 	implementation 'commons-cli:commons-cli:1.4'
 }
 
