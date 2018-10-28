@@ -1,8 +1,17 @@
-apply plugin: 'java-library'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
+    }
+}
+
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'java-library'
 apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.plugin-shadow'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'idea'
 
 def versionObj = new Version(major: 0, minor: 1, revision: 0)
 version = "$versionObj"
@@ -10,15 +19,6 @@ mainClassName = "au.com.fourseasonsgaming.fourseasonsgamingbot.FourSeasonsGaming
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
-    }
-}
 
 jar {
     baseName = project.name
@@ -46,7 +46,7 @@ class Version {
     int major, minor, revision
 
     String getBuild() {
-        System.getenv("BUILD_NUMBER") ?: System.getProperty("BUILD_NUMBER") ?: "DEV"
+        System.getenv("TRAVIS_BUILD_NUMBER") ?: System.getProperty("TRAVIS_BUILD_NUMBER") ?: "DEV"
     }
 
     String toString() {
