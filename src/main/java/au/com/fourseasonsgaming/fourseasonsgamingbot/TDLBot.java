@@ -1,5 +1,6 @@
 package au.com.fourseasonsgaming.fourseasonsgamingbot;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.security.auth.login.LoginException;
@@ -20,10 +21,10 @@ public class TDLBot {
 	
 	private final TazbotDiscordLib tdl;
 	
-	public TDLBot(String token) throws LoginException, IllegalArgumentException, InterruptedException, RateLimitedException {
+	public TDLBot(String token, Path configPath) throws LoginException, IllegalArgumentException, InterruptedException, RateLimitedException {
 		TazbotDiscordLibBuilder builder = new TazbotDiscordLibBuilder(token);
 		// Set the location files will be stored
-		builder.setFilePath(Paths.get(""));
+		builder.setFilePath(configPath);
 
 		this.tdl = builder.build();
 

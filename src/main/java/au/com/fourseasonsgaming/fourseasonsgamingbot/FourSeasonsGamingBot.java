@@ -1,6 +1,7 @@
 package au.com.fourseasonsgaming.fourseasonsgamingbot;
 
 import java.net.MalformedURLException;
+import java.nio.file.Paths;
 
 import javax.security.auth.login.LoginException;
 
@@ -23,7 +24,7 @@ public class FourSeasonsGamingBot {
 			LOGGER.info("Bot token set to {}", parsed.getToken());
 			LOGGER.info("Data url set to {}", parsed.getUrl());
 			
-			TDLBot tdlBot = new TDLBot(parsed.getToken());
+			TDLBot tdlBot = new TDLBot(parsed.getToken(), Paths.get(""));
 			JDA jda = tdlBot.getJDA();
 			
 			UrlRefresher refresher = new UrlRefresher(jda, parsed.getUrl());
