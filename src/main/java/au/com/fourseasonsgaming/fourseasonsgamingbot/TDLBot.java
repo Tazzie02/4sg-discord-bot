@@ -16,11 +16,11 @@ import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.AboutCommand;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
-public class JDABot {
+public class TDLBot {
 	
 	private final TazbotDiscordLib tdl;
 	
-	public JDABot(String token) throws LoginException, IllegalArgumentException, InterruptedException, RateLimitedException {
+	public TDLBot(String token) throws LoginException, IllegalArgumentException, InterruptedException, RateLimitedException {
 		TazbotDiscordLibBuilder builder = new TazbotDiscordLibBuilder(token);
 		// Set the location files will be stored
 		builder.setFilePath(Paths.get(""));

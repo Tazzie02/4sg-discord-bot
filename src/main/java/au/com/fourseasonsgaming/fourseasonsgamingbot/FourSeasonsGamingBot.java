@@ -23,8 +23,8 @@ public class FourSeasonsGamingBot {
 			LOGGER.info("Bot token set to {}", parsed.getToken());
 			LOGGER.info("Data url set to {}", parsed.getUrl());
 			
-			JDABot jdaBot = new JDABot(parsed.getToken());
-			JDA jda = jdaBot.getJDA();
+			TDLBot tdlBot = new TDLBot(parsed.getToken());
+			JDA jda = tdlBot.getJDA();
 			
 			UrlRefresher refresher = new UrlRefresher(jda, parsed.getUrl());
 			refresher.start();
