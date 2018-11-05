@@ -4,7 +4,8 @@ Start the bot:
 ```sh
 java -jar FourSeasonsGamingBot-0.1.0_23-all.jar \
 	--token [BOT TOKEN] \
-	--url [UPDATE JSON URL]
+	--url [UPDATE JSON URL] \
+	--refreshRate [SECONDS FOR REFRESH]
 ```
 The bot token can be obtained from https://discordapp.com/developers/applications/
 
