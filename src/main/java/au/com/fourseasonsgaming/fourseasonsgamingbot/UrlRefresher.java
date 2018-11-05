@@ -4,16 +4,22 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import net.dv8tion.jda.core.JDA;
+import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UrlRefresher {
-	
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UrlRefresher.class);
 	private final JDA jda;
 	private final URL url;
+	private final int refreshRate;
 	private boolean running;
 	
-	public UrlRefresher(JDA jda, String url) throws MalformedURLException {
+	public UrlRefresher(JDA jda, String url, int refreshRate) throws MalformedURLException {
 		this.jda = jda;
 		this.url = new URL(url);
+		this.refreshRate = refreshRate;
 	}
 	
 	public void start() {
@@ -36,21 +42,15 @@ public class UrlRefresher {
 		@Override
 		public void run() {
 			while (running) {
-				poster.post();
-				
+                poster.post();
+
 				try {
-					Thread.sleep(getRefreshMs());
+					Thread.sleep(refreshRate);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		
-		private int getRefreshMs() {
-			String seconds = System.getenv("REFRESH_SECONDS");
-			return Integer.parseInt(seconds) * 1000;
-		}
-		
 	}
 
 }

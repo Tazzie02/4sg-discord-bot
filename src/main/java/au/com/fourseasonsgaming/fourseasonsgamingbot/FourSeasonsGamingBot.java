@@ -23,11 +23,12 @@ public class FourSeasonsGamingBot {
 			CommandLineParsed parsed = options.parse(args);
 			LOGGER.info("Bot token set to {}", parsed.getToken());
 			LOGGER.info("Data url set to {}", parsed.getUrl());
+			LOGGER.info("Refresh rate set to {}", parsed.getRefreshRate());
 			
 			TDLBot tdlBot = new TDLBot(parsed.getToken(), Paths.get(""));
 			JDA jda = tdlBot.getJDA();
-			
-			UrlRefresher refresher = new UrlRefresher(jda, parsed.getUrl());
+
+			UrlRefresher refresher = new UrlRefresher(jda, parsed.getUrl(), parsed.getRefreshRate());
 			refresher.start();
 		}
 		catch (ParseException e) {

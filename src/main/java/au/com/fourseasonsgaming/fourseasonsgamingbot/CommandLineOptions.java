@@ -11,7 +11,10 @@ import org.apache.commons.cli.ParseException;
 public class CommandLineOptions {
 	
 	private final Options options;
-	
+	private final String tokenArgName = "token";
+	private final String urlArgName = "url";
+	private final String refreshArgName = "refreshRate";
+
 	public CommandLineOptions() {
 		this.options = createOptions();
 	}
@@ -31,20 +34,29 @@ public class CommandLineOptions {
 				.longOpt("token")
 				.desc("discord bot token (required)")
 				.hasArg()
-				.argName("TOKEN")
+				.argName(tokenArgName)
 				.required()
 				.build();
 		Option url = Option.builder("u")
 				.longOpt("url")
 				.desc("url to retrieve data (required)")
 				.hasArg()
-				.argName("URL")
+				.argName(urlArgName)
+				.required()
+				.build();
+		Option refreshRate = Option.builder("r")
+				.longOpt("refreshRate")
+				.desc("url refresh rate in seconds for retrieving from url (required)")
+				.hasArg()
+				.argName(refreshArgName)
+                .type(Integer.class)
 				.required()
 				.build();
 		
 		options.addOption(help);
 		options.addOption(token);
 		options.addOption(url);
+		options.addOption(refreshRate);
 		
 		return options;
 	}
@@ -64,13 +76,20 @@ public class CommandLineOptions {
 		}
 		
 		public String getToken() {
-			return this.commandLine.getOptionValue("token");
+			return this.commandLine.getOptionValue(tokenArgName);
 		}
 		
 		public String getUrl() {
-			return this.commandLine.getOptionValue("url");
+			return this.commandLine.getOptionValue(urlArgName);
 		}
-		
+
+		public int getRefreshRate() {
+		    System.out.println(this.commandLine.getOptionValue(refreshArgName));
+		    int refreshRate = Integer.parseInt(this.commandLine.getOptionValue(refreshArgName));
+		    // Convert milliseconds to seconds
+			return refreshRate * 1000;
+		}
+
 	}
 
 }

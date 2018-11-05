@@ -44,7 +44,7 @@ public class Poster {
 		this.url = url;
 	}
 	
-	public void post() {
+	public void post() throws JSONException {
 	    JSONObject jsonRoot = null;
 	    try {
             // Get JSON from the body of the web page
@@ -53,6 +53,10 @@ public class Poster {
         }
         catch (IOException e) {
 	        logger.error("Could not fetch web page.");
+	        return;
+        }
+        catch (JSONException e) {
+	        logger.error("Could not parse URL body as JSON.");
 	        return;
         }
 
