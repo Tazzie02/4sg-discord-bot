@@ -24,7 +24,6 @@ public class Poster {
 	private final JDA jda;
 	private final URL url;
 	private static final String UPDATES_KEY;
-//	private static final String FORMAT_KEY;
 	private static final String POST_CHANNEL_ID_KEY;
 	private static final String MESSAGE_KEY;
 
@@ -34,7 +33,6 @@ public class Poster {
 
 	static {
         UPDATES_KEY = "Updates";
-//        FORMAT_KEY = "Discord_Format";
         POST_CHANNEL_ID_KEY = "Discord_Post_Channel_Id";
         MESSAGE_KEY = "Message";
     }
@@ -44,8 +42,8 @@ public class Poster {
 		this.url = url;
 	}
 	
-	public void post() {
-	    JSONObject jsonRoot = null;
+	public void post() throws JSONException {
+	    JSONObject jsonRoot;
 	    try {
             // Get JSON from the body of the web page
             jsonRoot = getJsonFromPageBody(url);
@@ -53,6 +51,10 @@ public class Poster {
         }
         catch (IOException e) {
 	        logger.error("Could not fetch web page.");
+	        return;
+        }
+        catch (JSONException e) {
+	        logger.error("Could not parse URL body as JSON.");
 	        return;
         }
 
@@ -80,22 +82,6 @@ public class Poster {
                 continue;
             }
 
-//          // Get the format
-//		    String format = getFormat(update);
-//          // Skip this update when format key is invalid
-//          if (format == null) {
-//              logger.error("Skipping update due to format issue.");
-//              continue;
-//          }
-
-//          // Format the update
-//			String formatted = formatUpdate(format, update);
-//          // Skip this update when the formatting can't be generated
-//          if (formatted == null) {
-//              logger.error("Skipping update due to issue with generating formatting.");
-//              continue;
-//          }
-
             // Get the message
             String message = getMessage(update);
             // Skip this update when message key is invalid
@@ -111,7 +97,6 @@ public class Poster {
 
             // Add the formatted messages to the channel's messages
             List<String> messages = channelMessages.get(postChannelId);
-//          messages.add(formatted);
             messages.add(message);
         }
 
@@ -157,15 +142,6 @@ public class Poster {
         return json.getString(POST_CHANNEL_ID_KEY);
     }
 
-//	private String getFormat(JSONObject json) {
-//        if (!json.has(FORMAT_KEY)) {
-//            logger.error(String.format("Could not find format key (%s) in the update.", FORMAT_KEY));
-//            return null;
-//        }
-//
-//        return json.getString(FORMAT_KEY);
-//    }
-
     private TextChannel getPostChannel(String channelId) {
 	    try {
             return jda.getTextChannelById(channelId);
@@ -183,17 +159,5 @@ public class Poster {
 
         return json.getString(MESSAGE_KEY);
     }
-
-//	private String formatUpdate(String format, JSONObject update) {
-//		Iterator<String> keys = json.keys();
-//		while (keys.hasNext()) {
-//			String key = keys.next();
-//			String value =json.getString(key);
-//			String keyPlaceholder = Pattern.quote("{$" + key + "}");
-//			format = format.replaceAll(keyPlaceholder, value);
-//		}
-//
-//		return format;
-//	}
 
 }
