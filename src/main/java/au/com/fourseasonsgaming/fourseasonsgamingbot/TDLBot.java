@@ -1,22 +1,21 @@
 package au.com.fourseasonsgaming.fourseasonsgamingbot;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import javax.security.auth.login.LoginException;
-
+import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.AboutCommand;
 import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.JoinedCommand;
 import com.tazzie02.tazbotdiscordlib.CommandRegistry;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLib;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLibBuilder;
-import com.tazzie02.tazbotdiscordlib.commands.*;
+import com.tazzie02.tazbotdiscordlib.commands.HelpCommand;
+import com.tazzie02.tazbotdiscordlib.commands.PingCommand;
+import com.tazzie02.tazbotdiscordlib.commands.ShutdownCommand;
 import com.tazzie02.tazbotdiscordlib.filehandling.LocalFiles;
 import com.tazzie02.tazbotdiscordlib.impl.MessageLoggerImpl;
 import com.tazzie02.tazbotdiscordlib.impl.MessageSenderImpl;
-
-import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.AboutCommand;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+
+import javax.security.auth.login.LoginException;
+import java.nio.file.Path;
 
 public class TDLBot {
 	
