@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 
 import javax.security.auth.login.LoginException;
 
+import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.JoinedCommand;
 import com.tazzie02.tazbotdiscordlib.CommandRegistry;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLib;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLibBuilder;
@@ -62,6 +63,7 @@ public class TDLBot {
 	    
 	    // General commands
 	    registry.registerCommand(new AboutCommand());
+	    registry.registerCommand(new JoinedCommand());
 	}
 	
 	public JDA getJDA() {
