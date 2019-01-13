@@ -12,6 +12,9 @@ build/
 
 target/
 
+# FourSeasonsGamingBot
+4sg-config.json
+
 # TazbotDiscordLib
 data/
 config.json
