@@ -1,7 +1,7 @@
 package au.com.fourseasonsgaming.fourseasonsgamingbot;
 
-import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.AboutCommand;
-import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.JoinedCommand;
+import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.*;
+import au.com.fourseasonsgaming.fourseasonsgamingbot.configuration.Config;
 import com.tazzie02.tazbotdiscordlib.CommandRegistry;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLib;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLibBuilder;
@@ -21,7 +21,7 @@ public class TDLBot {
 	
 	private final TazbotDiscordLib tdl;
 	
-	public TDLBot(String token, Path configPath) throws LoginException, IllegalArgumentException, InterruptedException, RateLimitedException {
+	public TDLBot(String token, Path configPath, Config fourSeasonsConfig) throws LoginException, IllegalArgumentException, InterruptedException, RateLimitedException {
 		TazbotDiscordLibBuilder builder = new TazbotDiscordLibBuilder(token);
 		// Set the location files will be stored
 		builder.setFilePath(configPath);
@@ -48,13 +48,13 @@ public class TDLBot {
 		// Use the MessageLogger to log received messages
 	    registry.setMessageReceivedLogger(logger);
 	    
-	    registerCommands(registry);
+	    registerCommands(registry, fourSeasonsConfig);
 
 	    // Add the CommandRegistry to the TazbotDiscordLib object
 	    tdl.addListener(registry);
 	}
 	
-	private void registerCommands(CommandRegistry registry) {
+	private void registerCommands(CommandRegistry registry, Config fourSeasonsConfig) {
 		// Commands provided by TDL
 		registry.registerCommand(new HelpCommand(registry));
 	    registry.registerCommand(new PingCommand());
@@ -63,6 +63,9 @@ public class TDLBot {
 	    // General commands
 	    registry.registerCommand(new AboutCommand());
 	    registry.registerCommand(new JoinedCommand());
+	    registry.registerCommand(new JoinCommand(fourSeasonsConfig.getRoleMappings()));
+		registry.registerCommand(new LeaveCommand(fourSeasonsConfig.getRoleMappings()));
+		registry.registerCommand(new RolesCommand());
 	}
 	
 	public JDA getJDA() {
