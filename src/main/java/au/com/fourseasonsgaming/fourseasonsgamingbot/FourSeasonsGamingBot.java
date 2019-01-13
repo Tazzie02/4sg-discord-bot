@@ -5,6 +5,8 @@ import java.nio.file.Paths;
 
 import javax.security.auth.login.LoginException;
 
+import au.com.fourseasonsgaming.fourseasonsgamingbot.configuration.Config;
+import au.com.fourseasonsgaming.fourseasonsgamingbot.configuration.ConfigFileHandler;
 import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,14 +20,17 @@ public class FourSeasonsGamingBot {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FourSeasonsGamingBot.class);
 	
 	public static void main(String[] args) {
+
 		CommandLineOptions options = new CommandLineOptions();
 		try {
 			CommandLineParsed parsed = options.parse(args);
 			LOGGER.info("Bot token set to {}", parsed.getToken());
 			LOGGER.info("Data url set to {}", parsed.getUrl());
 			LOGGER.info("Refresh rate set to {}", parsed.getRefreshRate());
-			
-			TDLBot tdlBot = new TDLBot(parsed.getToken(), Paths.get(""));
+
+			Config fourSeasonsConfig  = ConfigFileHandler.getInstance().getConfig();
+
+			TDLBot tdlBot = new TDLBot(parsed.getToken(), Paths.get(""), fourSeasonsConfig);
 			JDA jda = tdlBot.getJDA();
 
 			UrlRefresher refresher = new UrlRefresher(jda, parsed.getUrl(), parsed.getRefreshRate());
