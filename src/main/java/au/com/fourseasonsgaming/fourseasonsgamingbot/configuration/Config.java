@@ -11,18 +11,27 @@ public class Config {
 
     @SerializedName("role-mappings")
     private final RoleMapping[] roleMappings;
+    @SerializedName("delete-messages-after-seconds")
+    private final int deleteMessagesAfterSeconds;
 
-    public Config(RoleMapping[] roleMappings) {
+    public Config(RoleMapping[] roleMappings, int deleteMessagesAfterSeconds) {
         this.roleMappings = roleMappings;
+        this.deleteMessagesAfterSeconds = deleteMessagesAfterSeconds;
     }
 
     public List<RoleMapping> getRoleMappings() {
         return Collections.unmodifiableList(Arrays.asList(roleMappings));
     }
 
+    public int getDeleteMessagesAfterSeconds() {
+        return this.deleteMessagesAfterSeconds;
+    }
+
     public static Config defaultFactory() {
         RoleMapping[] roleMappings = {new RoleMapping("", "")};
-        Config config = new Config(roleMappings);
+        int deleteMessagesAfterSeconds = 5;
+
+        Config config = new Config(roleMappings, deleteMessagesAfterSeconds);
 
         return config;
     }
