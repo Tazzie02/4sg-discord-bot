@@ -2,6 +2,7 @@ package au.com.fourseasonsgaming.fourseasonsgamingbot;
 
 import au.com.fourseasonsgaming.fourseasonsgamingbot.commands.*;
 import au.com.fourseasonsgaming.fourseasonsgamingbot.configuration.Config;
+import au.com.fourseasonsgaming.fourseasonsgamingbot.implementation.DeleteMessage;
 import com.tazzie02.tazbotdiscordlib.CommandRegistry;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLib;
 import com.tazzie02.tazbotdiscordlib.TazbotDiscordLibBuilder;
@@ -59,12 +60,14 @@ public class TDLBot {
 		registry.registerCommand(new HelpCommand(registry));
 	    registry.registerCommand(new PingCommand());
 	    registry.registerCommand(new ShutdownCommand());
+
+		DeleteMessage deleteMessage = new DeleteMessage(fourSeasonsConfig.getDeleteMessagesAfterSeconds());
 	    
 	    // General commands
 	    registry.registerCommand(new AboutCommand());
 	    registry.registerCommand(new JoinedCommand());
-	    registry.registerCommand(new JoinCommand(fourSeasonsConfig.getRoleMappings()));
-		registry.registerCommand(new LeaveCommand(fourSeasonsConfig.getRoleMappings()));
+	    registry.registerCommand(new JoinCommand(fourSeasonsConfig.getRoleMappings(), deleteMessage));
+		registry.registerCommand(new LeaveCommand(fourSeasonsConfig.getRoleMappings(), deleteMessage));
 		registry.registerCommand(new RolesCommand());
 	}
 	

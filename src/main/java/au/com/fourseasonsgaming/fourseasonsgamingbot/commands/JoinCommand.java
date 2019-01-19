@@ -1,7 +1,9 @@
 package au.com.fourseasonsgaming.fourseasonsgamingbot.commands;
 
+import au.com.fourseasonsgaming.fourseasonsgamingbot.implementation.DeleteMessage;
 import au.com.fourseasonsgaming.fourseasonsgamingbot.models.RoleMapping;
 import com.tazzie02.tazbotdiscordlib.Command;
+import com.tazzie02.tazbotdiscordlib.MessageCallback;
 import com.tazzie02.tazbotdiscordlib.SendMessage;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Role;
@@ -15,39 +17,48 @@ import java.util.List;
 public class JoinCommand implements Command {
 
     private final List<RoleMapping> roleMappings;
+    private final MessageCallback messageCallback;
 
-    public JoinCommand(List<RoleMapping> roleMappings) {
+    public JoinCommand(List<RoleMapping> roleMappings, MessageCallback messageCallback) {
         this.roleMappings = roleMappings;
+        this.messageCallback = messageCallback;
     }
 
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
+        messageCallback.callback(e.getMessage());
+
         if (!PermissionUtil.checkPermission(e.getGuild().getSelfMember(), Permission.MANAGE_PERMISSIONS)) {
-            SendMessage.sendMessage(e, "Error: Bot must have Manage Roles permission. Contact the bot administrator.");
+            SendMessage.sendMessage(e, "Error: Bot must have Manage Roles permission. Contact the bot administrator.", messageCallback);
             return;
         }
 
         if (args.length == 0) {
-            SendMessage.sendMessage(e, getAvailableTriggersString());
+            SendMessage.sendMessage(e, getAvailableTriggersString(), messageCallback);
             return;
         }
 
         String trigger = String.join(" ", args);
         for (RoleMapping mapping : roleMappings) {
             if (trigger.equalsIgnoreCase(mapping.getTrigger())) {
+                if (mapping.getRoleId().isEmpty()) {
+                    SendMessage.sendMessage(e, "Error: Role ID is empty in configuration. Contact the bot administrator.", messageCallback);
+                    return;
+                }
+
                 Role role = e.getGuild().getRoleById(mapping.getRoleId());
                 if (role == null) {
-                    SendMessage.sendMessage(e, "Error: Could not find role with ID specified in configuration. Contact the bot administrator.");
+                    SendMessage.sendMessage(e, "Error: Could not find role with ID specified in configuration. Contact the bot administrator.", messageCallback);
                     return;
                 }
 
                 e.getGuild().getController().addRolesToMember(e.getMember(), role).queue();
-                SendMessage.sendMessage(e, String.format("Added role '%s' (%s) to %s.", trigger, role.getName(), e.getMember().getEffectiveName()));
+                SendMessage.sendMessage(e, String.format("Added role '%s' (%s) to %s.", trigger, role.getName(), e.getMember().getEffectiveName()), messageCallback);
                 return;
             }
         }
 
-        SendMessage.sendMessage(e, String.format("Error: Could not find trigger '%s'. Use this command without arguments to see available triggers.", trigger));
+        SendMessage.sendMessage(e, String.format("Error: Could not find trigger '%s'. Use this command without arguments to see available triggers.", trigger), messageCallback);
     }
 
     private String getAvailableTriggersString() {
