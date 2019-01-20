@@ -15,6 +15,10 @@ public class JoinedCommand implements Command {
     public void onCommand(MessageReceivedEvent e, String[] args) {
         Guild guild;
         if (args.length == 0) {
+            if (e.getGuild() == null) {
+                SendMessage.sendMessage(e, "Error: This command cannot be run in a private channel without specifying a server ID.");
+                return;
+            }
             guild = e.getGuild();
         }
         else if (args.length == 1) {
@@ -57,7 +61,8 @@ public class JoinedCommand implements Command {
 
     @Override
     public String getDetails() {
-        return "joined <serverId> <roleId> - Get a list of users with roleId in serverId.";
+        return "joined - Get a CSV of all members of the server.\n" +
+                "joined [id] - Get a CSV of all members of the server with ID of [id].";
     }
 
     @Override

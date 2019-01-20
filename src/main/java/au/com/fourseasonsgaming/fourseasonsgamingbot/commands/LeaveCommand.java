@@ -27,6 +27,11 @@ public class LeaveCommand implements Command {
 
     @Override
     public void onCommand(MessageReceivedEvent e, String[] args) {
+        if (e.getGuild() == null) {
+            SendMessage.sendMessage(e, "Error: This command cannot be run in a private channel.");
+            return;
+        }
+
         messageCallback.callback(e.getMessage());
 
         if (!PermissionUtil.checkPermission(e.getGuild().getSelfMember(), Permission.MANAGE_PERMISSIONS)) {
